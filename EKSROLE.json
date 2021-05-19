@@ -1,0 +1,44 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "IAM role for serviceaccount \"kube-system/aws-node\" [created and managed by eksctl]",
+    "Resources": {
+        "Role1": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRoleWithWebIdentity"
+                            ],
+                            "Condition": {
+                                "StringEquals": {
+                                    "oidc.eks.us-east-1.amazonaws.com/id/E796FA7F90BC744DFD089BA6F44BB15E:aud": "sts.amazonaws.com",
+                                    "oidc.eks.us-east-1.amazonaws.com/id/E796FA7F90BC744DFD089BA6F44BB15E:sub": "system:serviceaccount:kube-system:aws-node"
+                                }
+                            },
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "arn:aws:iam::657586700911:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/E796FA7F90BC744DFD089BA6F44BB15E"
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "Role1": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "Role1",
+                    "Arn"
+                ]
+            }
+        }
+    }
+}
